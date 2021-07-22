@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  min-width: 250px;
+}
+
+/* border and it's color */
+.container {
+  border: 50px solid #21b6c5;
+}
+
+/* Include the padding and border in an element's total width and height */
+* {
+  box-sizing: border-box;
+}
+
+/* Remove margins and padding from the list */
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style the list items */
+ol li {
+  cursor: pointer;
+  position: relative;
+  padding: 12px 8px 12px 40px;
+  list-style-type: none;
+  background: #eee;
+  font-size: 18px;
+  transition: 0.2s;
+  
+  /* make the list items unselectable */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Set all odd list items to a different color (zebra-stripes) */
+ol li:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+/* Darker background-color on hover */
+ol li:hover {
+  background: #ddd;
+}
+
+/* When clicked on, add a background color and strike out text */
+ol li.checked {
+  background: #888;
+  color: #fff;
+  text-decoration: line-through;
+}
+
+/* Add a "checked" mark when clicked on */
+ol li.checked::before {
+  content: '';
+  position: absolute;
+  border-color: #156969;
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  top: 10px;
+  left: 16px;
+  transform: rotate(45deg);
+  height: 15px;
+  width: 7px;
+}
+
+/* Style the finish button */
+.finish {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 12px 16px 12px 16px;
+  background-color: #f78880
+}
+
+.finish:hover {
+  background-color: #f11606;
+  color: #f9f5f5;
+}
+
+/* Style the header */
+.header {
+  background-color: #156969;
+  padding: 30px 208px;
+  color: white;
+  text-align: center;
+}
+
+/* Clear floats after the header */
+.header:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the input */
+input {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  width: 85%;
+  padding: 10px;
+  float: left;
+  font-size: 16px;
+}
+
+/* Style the "Add" button */
+.button_add {
+  padding: 10px;
+  width: 15%;
+  background: #d9d9d9;
+  color: #555;
+  float: left;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 0;
+}
+
+.button_add:hover {
+  background-color: #15daf5;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="firstdiv" class="header">
+    <h2 style="margin:5px">To-do List</h2>
+    <input type="text" id="input_1" placeholder="Enter the Activity">
+    <items onclick="newElement()" class="button_add">Add</items>
+  </div>
+
+  <ol id="List_create">
+ 
+  </ol>
+</div>
+<div>
+  <p>
+    Nb:Click on the completed task.
+  </p>
+</div>
+<script>
+// Create a "finish" button and append it to each list item
+var myNodelist = document.getElementsByTagName("LI");
+var i;
+for (i = 0; i < myNodelist.length; i++) {
+  var items = document.createElement("items");
+  var txt = document.createTextNode("\u00D7");
+  items.className = "finish";
+  items.appendChild(txt);
+  myNodelist[i].appendChild(items);
+}
+
+// Click on a finish button to hide the current list item
+var finish = document.getElementsByClassName("finish");
+var i;
+for (i = 0; i < finish.length; i++) {
+  finish[i].onclick = function() {
+    var div = this.parentElement;
+    div.style.display = "none";
+  }
+}
+
+// Add a "checked" symbol when clicking on a list item
+var list = document.querySelector('ol');
+list.addEventListener('click', function(ev) {
+  if (ev.target.tagName === 'LI') {
+    ev.target.classList.toggle('checked');
+  }
+}, false);
+
+// Create a new list item when clicking on the "Add" button
+function newElement() {
+  var li = document.createElement("li");
+  var inputValue = document.getElementById("input_1").value;
+  var t = document.createTextNode(inputValue);
+  li.appendChild(t);
+  if (inputValue === '') {
+    alert("please write something!");
+  } else {
+    document.getElementById("List_create").appendChild(li);
+  }
+  document.getElementById("input_1").value = "";
+
+  var items = document.createElement("items");
+  var txt = document.createTextNode("\u00D7");
+  items.className = "finish";
+  items.appendChild(txt);
+  li.appendChild(items);
+
+  for (i = 0; i < finish.length; i++) {
+    finish[i].onclick = function() {
+      var div = this.parentElement;
+      div.style.display = "none";
+    }
+  }
+}
+</script>
+
+</body>
+</html>
